@@ -1,0 +1,1 @@
+javascript:(function(){;window.open(%22https://www.facebook.com/sharer/sharer.php?u=%22+window.location.href,%22socialNetworkShare%22,%22width=600,height=600,top=100,left=100,menubar=no,scrollbars=no,status=no,toolbar=no%22);})()
