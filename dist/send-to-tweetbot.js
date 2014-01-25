@@ -1,0 +1,1 @@
+javascript:(function(){;window.location.assign(%22tweetbot://post?text=%22+encodeURIComponent(document.title)+%22%20-%20%22+encodeURIComponent(window.location.href));})()
