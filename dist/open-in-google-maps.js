@@ -1,0 +1,1 @@
+javascript:(function(){;%22maps.google.com%22==window.location.hostname&&window.location.search&&window.location.assign(%22comgooglemaps://%22+window.location.search);})()
