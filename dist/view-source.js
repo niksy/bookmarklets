@@ -1,0 +1,1 @@
+javascript:(function(){;window.location.assign(%22http://viewsource.in/%22+window.location.href);})()
