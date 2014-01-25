@@ -29,7 +29,7 @@
 	// Check for existence of viewport meta
 	// If it doesn’t exist, create one
 	if ( domRefs.viewportMetaEl === null ) {
-		domRefs.viewportMetaEl = document.createElement('meta');
+		domRefs.viewportMetaEl = doc.createElement('meta');
 		domRefs.viewportMetaEl.setAttribute('name','viewport');
 		domRefs.viewportMetaEl.setAttribute('content','width=device-width,initial-scale=1.0');
 		domRefs.headEl.appendChild(domRefs.viewportMetaEl);
@@ -39,7 +39,7 @@
 	// If it doesn’t exist, create one
 	if ( domRefs.bookmarkletComponentStyleEl === null ) {
 		domRefs.bookmarkletComponentStyleEl = doc.createElement('style');
-		domRefs.bookmarkletComponentStyleEl.appendChild(document.createTextNode(''));
+		domRefs.bookmarkletComponentStyleEl.appendChild(doc.createTextNode(''));
 		domRefs.bookmarkletComponentStyleEl.classList.add('bookmarklet-components-style');
 		domRefs.headEl.appendChild(domRefs.bookmarkletComponentStyleEl);
 	}
@@ -48,7 +48,7 @@
 	// If it doesn’t exist, create one
 	if ( domRefs.bookmarkletComponentWrapEl === null ) {
 
-		domRefs.bookmarkletComponentWrapEl = document.createElement('div');
+		domRefs.bookmarkletComponentWrapEl = doc.createElement('div');
 		domRefs.bookmarkletComponentWrapEl.classList.add('bookmarklet-components');
 		domRefs.bodyEl.appendChild(domRefs.bookmarkletComponentWrapEl);
 
@@ -65,7 +65,7 @@
 	// If it doesn’t exist, create one
 	if ( domRefs.bookmarkletComponentsRemoveEl === null ) {
 
-		domRefs.bookmarkletComponentsRemoveEl = document.createElement('button');
+		domRefs.bookmarkletComponentsRemoveEl = doc.createElement('button');
 		domRefs.bookmarkletComponentsRemoveEl.setAttribute('type','button');
 		domRefs.bookmarkletComponentsRemoveEl.classList.add('bookmarklet-components-remove');
 		domRefs.bookmarkletComponentsRemoveEl.innerHTML = 'Remove bookmarklets';
@@ -77,12 +77,19 @@
 	}
 
 	// Create bookmarklet component element and append it to wrapper for components
-	domRefs.bookmarkletComponentEl = document.createElement('div');
+	domRefs.bookmarkletComponentEl = doc.createElement('div');
 	domRefs.bookmarkletComponentEl.classList.add('bookmarklet-component');
 	domRefs.bookmarkletComponentWrapEl.appendChild(domRefs.bookmarkletComponentEl);
 
 	// Initialize Google +1 component
 	domRefs.bookmarkletComponentEl.innerHTML = '<div class="g-plusone" data-href="' + window.location.href + '" data-size="tall"></div>';
-	asyncJsAdd('https://apis.google.com/js/plusone.js', 'gplusSdk');
+
+	// If Google+ SDK already exists on page, reparse new components,
+	// Otherwise, load Google+ SDK
+	if ( 'gapi' in window ) {
+		gapi.plusone.go(domRefs.bookmarkletComponentWrapEl);
+	} else {
+		asyncJsAdd('https://apis.google.com/js/plusone.js', 'gplusSdk');
+	}
 
 })( document, 'script' );

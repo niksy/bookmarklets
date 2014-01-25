@@ -29,7 +29,7 @@
 	// Check for existence of viewport meta
 	// If it doesn’t exist, create one
 	if ( domRefs.viewportMetaEl === null ) {
-		domRefs.viewportMetaEl = document.createElement('meta');
+		domRefs.viewportMetaEl = doc.createElement('meta');
 		domRefs.viewportMetaEl.setAttribute('name','viewport');
 		domRefs.viewportMetaEl.setAttribute('content','width=device-width,initial-scale=1.0');
 		domRefs.headEl.appendChild(domRefs.viewportMetaEl);
@@ -39,7 +39,7 @@
 	// If it doesn’t exist, create one
 	if ( domRefs.bookmarkletComponentStyleEl === null ) {
 		domRefs.bookmarkletComponentStyleEl = doc.createElement('style');
-		domRefs.bookmarkletComponentStyleEl.appendChild(document.createTextNode(''));
+		domRefs.bookmarkletComponentStyleEl.appendChild(doc.createTextNode(''));
 		domRefs.bookmarkletComponentStyleEl.classList.add('bookmarklet-components-style');
 		domRefs.headEl.appendChild(domRefs.bookmarkletComponentStyleEl);
 	}
@@ -48,7 +48,7 @@
 	// If it doesn’t exist, create one
 	if ( domRefs.bookmarkletComponentWrapEl === null ) {
 
-		domRefs.bookmarkletComponentWrapEl = document.createElement('div');
+		domRefs.bookmarkletComponentWrapEl = doc.createElement('div');
 		domRefs.bookmarkletComponentWrapEl.classList.add('bookmarklet-components');
 		domRefs.bodyEl.appendChild(domRefs.bookmarkletComponentWrapEl);
 
@@ -65,7 +65,7 @@
 	// If it doesn’t exist, create one
 	if ( domRefs.bookmarkletComponentsRemoveEl === null ) {
 
-		domRefs.bookmarkletComponentsRemoveEl = document.createElement('button');
+		domRefs.bookmarkletComponentsRemoveEl = doc.createElement('button');
 		domRefs.bookmarkletComponentsRemoveEl.setAttribute('type','button');
 		domRefs.bookmarkletComponentsRemoveEl.classList.add('bookmarklet-components-remove');
 		domRefs.bookmarkletComponentsRemoveEl.innerHTML = 'Remove bookmarklets';
@@ -77,18 +77,25 @@
 	}
 
 	// Create bookmarklet component element and append it to wrapper for components
-	domRefs.bookmarkletComponentEl = document.createElement('div');
+	domRefs.bookmarkletComponentEl = doc.createElement('div');
 	domRefs.bookmarkletComponentEl.classList.add('bookmarklet-component');
 	domRefs.bookmarkletComponentWrapEl.appendChild(domRefs.bookmarkletComponentEl);
 
 	// Initialize Facebook Like component
 	if ( doc.getElementById('fb-root') === null ) {
-		domRefs.fbRoot = document.createElement('div');
+		domRefs.fbRoot = doc.createElement('div');
 		domRefs.fbRoot.setAttribute('id','fb-root');
 		domRefs.bodyEl.appendChild(domRefs.fbRoot);
 	}
 
 	domRefs.bookmarkletComponentEl.innerHTML = '<div class="fb-like" data-href="' + window.location.href + '" data-layout="box_count" data-action="like" data-show-faces="false" data-share="false"></div>';
-	asyncJsAdd('//connect.facebook.net/en_US/all.js#xfbml=1', 'facebookSdk');
+
+	// If Facebook Connect already exists on page, reparse new components
+	// Otherwise, load Facebook SDK
+	if ( 'FB' in window ) {
+		FB.XFBML.parse(domRefs.bookmarkletComponentWrapEl);
+	} else {
+		asyncJsAdd('//connect.facebook.net/en_US/all.js#xfbml=1', 'facebookSdk');
+	}
 
 })( document, 'script' );
