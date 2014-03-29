@@ -1,7 +1,15 @@
 /* jshint expr:true */
 (function ( doc, script ) {
 
+	// Get DOM references
 	var domRefs = {};
+	domRefs.bodyEl                        = doc.getElementsByTagName('body')[0];
+	domRefs.headEl                        = doc.getElementsByTagName('head')[0];
+	domRefs.viewportMetaEl                = doc.querySelector('meta[name="viewport"]');
+	domRefs.bookmarkletComponentStyleEl   = doc.querySelector('.bookmarklet-components-style');
+	domRefs.bookmarkletComponentWrapEl    = doc.querySelector('.bookmarklet-components');
+	domRefs.bookmarkletComponentsRemoveEl = doc.querySelector('.bookmarklet-components-remove');
+
 	var js;
 	var fjs = doc.getElementsByTagName(script)[0];
 	// Ref. https://gist.github.com/necolas/1025811
@@ -10,21 +18,17 @@
 		js = doc.createElement(script);
 		js.src = url;
 		id && (js.id = id);
-		fjs.parentNode.insertBefore(js, fjs);
+		if ( Boolean(fjs) === false ) {
+			domRefs.headEl.appendChild(js);
+		} else {
+			fjs.parentNode.insertBefore(js, fjs);
+		}
 	};
 	var cleanup = function () {
 		domRefs.headEl.removeChild(domRefs.bookmarkletComponentStyleEl);
 		domRefs.bodyEl.removeChild(domRefs.bookmarkletComponentWrapEl);
 		domRefs.bodyEl.removeChild(domRefs.bookmarkletComponentsRemoveEl);
 	};
-
-	// Get DOM references
-	domRefs.bodyEl                        = doc.getElementsByTagName('body')[0];
-	domRefs.headEl                        = doc.getElementsByTagName('head')[0];
-	domRefs.viewportMetaEl                = doc.querySelector('meta[name="viewport"]');
-	domRefs.bookmarkletComponentStyleEl   = doc.querySelector('.bookmarklet-components-style');
-	domRefs.bookmarkletComponentWrapEl    = doc.querySelector('.bookmarklet-components');
-	domRefs.bookmarkletComponentsRemoveEl = doc.querySelector('.bookmarklet-components-remove');
 
 	// Check for existence of viewport meta
 	// If it doesn’t exist, create one
