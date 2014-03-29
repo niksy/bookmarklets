@@ -7,5 +7,14 @@
 </head>
 <body>
 	<%= content %>
+	<script>
+		var arrTextareaNodes = [].slice.call(document.querySelectorAll('textarea'));
+		arrTextareaNodes.forEach(function ( element ) {
+			element.addEventListener('click', function () {
+				this.focus();
+				this.select();
+			}, false);
+		});
+	</script>
 </body>
 </html>
