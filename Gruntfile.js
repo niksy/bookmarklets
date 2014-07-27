@@ -20,21 +20,21 @@ module.exports = function ( grunt ) {
 				files: [{
 					expand: true,
 					cwd: 'src',
-					src: ['**/*.js','!**/*.original.js'],
+					src: [
+						'*.js',
+						'!*.original.js',
+						'!facebook-like.js',
+						'!gplus-one.js'
+					],
 					dest: 'dist'
 				}]
 			},
-			deuglify: {
-				options: {
-					beautify: {
-						beautify: true
-					}
-				},
+			browserify: {
 				files: [{
 					expand: true,
-					cwd: 'src',
-					src: '**/*.original.js',
-					dest: 'src/original-expanded'
+					cwd: 'src/out',
+					src: ['*.js'],
+					dest: 'dist'
 				}]
 			}
 		},
@@ -44,7 +44,7 @@ module.exports = function ( grunt ) {
 				files: [{
 					expand: true,
 					cwd: 'dist',
-					src: ['**/*.js','!**/*.original.js'],
+					src: ['*.js','!*.original.js'],
 					dest: 'dist'
 				}]
 			}
@@ -77,6 +77,7 @@ module.exports = function ( grunt ) {
 					flatten: true,
 					cwd: 'dist/pages',
 					src: ['*.md'],
+					dest: 'dist/pages',
 					ext: '.html'
 				}]
 			}
@@ -89,7 +90,9 @@ module.exports = function ( grunt ) {
 				},
 				files: {
 					src: [
-						'src/**/*.js'
+						'src/**/*.js',
+						'!src/out/**/*.js',
+						'!src/**/*.original.js'
 					]
 				}
 			}
@@ -101,11 +104,27 @@ module.exports = function ( grunt ) {
 					jshintrc: '.jshintrc'
 				},
 				src: [
-					'src/**/*.js'
+					'src/**/*.js',
+					'!src/out/**/*.js',
+					'!src/**/*.original.js'
 				]
 			}
 		},
 
+		browserify: {
+			dist: {
+				files: [{
+					expand: true,
+					cwd: 'src',
+					src: [
+						'facebook-like.js',
+						'gplus-one.js'
+					],
+					dest: 'src/out'
+				}]
+			}
+		},
+		
 		bump: {
 			options: {
 				files: ['package.json'],
@@ -128,10 +147,11 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-jscs');
 	grunt.loadNpmTasks('grunt-bump');
+	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadTasks('tasks');
 
 	grunt.registerTask('stylecheck', ['jshint:main', 'jscs:main']);
-	grunt.registerTask('default', ['stylecheck', 'uglify:dist', 'bookmarkletize:dist', 'markdown:pages']);
+	grunt.registerTask('default', ['stylecheck', 'browserify:dist', 'uglify:dist', 'uglify:browserify', 'bookmarkletize:dist', 'markdown:pages']);
 	grunt.registerTask('releasePatch', ['bump-only:patch', 'default', 'bump-commit']);
 	grunt.registerTask('releaseMinor', ['bump-only:minor', 'default', 'bump-commit']);
 	grunt.registerTask('releaseMajor', ['bump-only:major', 'default', 'bump-commit']);

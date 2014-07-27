@@ -28,7 +28,7 @@ iOS has the worst bookmarklet management ever. Let’s make it a little bit easi
 
 {{ dist/view-source.js }}
 
-### Post via Tweetbot
+### Send to Tweetbot
 
 {{ dist/send-to-tweetbot.js }}
 
