@@ -2,14 +2,14 @@
 
 var doc = document;
 var script = 'script';
+var domNs = 'bookmarklet-components';
 var dom = {
 	body    : doc.getElementsByTagName('body')[0],
 	head    : doc.getElementsByTagName('head')[0],
 	viewport: doc.querySelector('meta[name="viewport"]'),
-	ns      : 'bookmarklet-components',
-	style   : doc.querySelector('.' + dom.ns + '-style'),
-	wrap    : doc.querySelector('.' + dom.ns),
-	remove  : doc.querySelector('.' + dom.ns + '-remove')
+	style   : doc.querySelector('.' + domNs + '-style'),
+	wrap    : doc.querySelector('.' + domNs),
+	remove  : doc.querySelector('.' + domNs + '-remove')
 };
 var js;
 var fjs = doc.getElementsByTagName(script)[0];
