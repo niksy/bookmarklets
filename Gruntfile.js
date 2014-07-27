@@ -80,6 +80,44 @@ module.exports = function ( grunt ) {
 					ext: '.html'
 				}]
 			}
+		},
+
+		jscs: {
+			main: {
+				options: {
+					config: '.jscsrc'
+				},
+				files: {
+					src: [
+						'src/**/*.js'
+					]
+				}
+			}
+		},
+
+		jshint: {
+			main: {
+				options: {
+					jshintrc: '.jshintrc'
+				},
+				src: [
+					'src/**/*.js'
+				]
+			}
+		},
+
+		bump: {
+			options: {
+				files: ['package.json'],
+				updateConfigs: ['pkg'],
+				commit: true,
+				commitMessage: 'Release %VERSION%',
+				commitFiles: ['-a'],
+				createTag: true,
+				tagName: '%VERSION%',
+				tagMessage: '',
+				push: false
+			}
 		}
 
 	});
@@ -87,8 +125,15 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks('grunt-markdown');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-jscs');
+	grunt.loadNpmTasks('grunt-bump');
 	grunt.loadTasks('tasks');
 
-	grunt.registerTask('default', ['uglify:dist', 'bookmarkletize:dist', 'markdown:pages']);
+	grunt.registerTask('stylecheck', ['jshint:main', 'jscs:main']);
+	grunt.registerTask('default', ['stylecheck', 'uglify:dist', 'bookmarkletize:dist', 'markdown:pages']);
+	grunt.registerTask('releasePatch', ['bump-only:patch', 'default', 'bump-commit']);
+	grunt.registerTask('releaseMinor', ['bump-only:minor', 'default', 'bump-commit']);
+	grunt.registerTask('releaseMajor', ['bump-only:major', 'default', 'bump-commit']);
 
 };
