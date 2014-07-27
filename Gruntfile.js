@@ -124,7 +124,7 @@ module.exports = function ( grunt ) {
 				}]
 			}
 		},
-		
+
 		bump: {
 			options: {
 				files: ['package.json'],
@@ -137,6 +137,19 @@ module.exports = function ( grunt ) {
 				tagMessage: '',
 				push: false
 			}
+		},
+
+		shell: {
+			pages: {
+				command: [
+					'git checkout gh-pages',
+					'git checkout master -- dist/pages/index.html',
+					'mv dist/pages/index.html .',
+					'rm -rf dist/pages/',
+					'git checkout master',
+					'git checkout -- .'
+				].join('&&')
+			}
 		}
 
 	});
@@ -148,10 +161,11 @@ module.exports = function ( grunt ) {
 	grunt.loadNpmTasks('grunt-jscs');
 	grunt.loadNpmTasks('grunt-bump');
 	grunt.loadNpmTasks('grunt-browserify');
+	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadTasks('tasks');
 
 	grunt.registerTask('stylecheck', ['jshint:main', 'jscs:main']);
-	grunt.registerTask('default', ['stylecheck', 'browserify:dist', 'uglify:dist', 'uglify:browserify', 'bookmarkletize:dist', 'markdown:pages']);
+	grunt.registerTask('default', ['stylecheck', 'browserify:dist', 'uglify:dist', 'uglify:browserify', 'bookmarkletize:dist', 'markdown:pages', 'shell:pages']);
 	grunt.registerTask('releasePatch', ['bump-only:patch', 'default', 'bump-commit']);
 	grunt.registerTask('releaseMinor', ['bump-only:minor', 'default', 'bump-commit']);
 	grunt.registerTask('releaseMajor', ['bump-only:major', 'default', 'bump-commit']);
