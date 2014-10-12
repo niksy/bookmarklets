@@ -142,12 +142,11 @@ module.exports = function ( grunt ) {
 		shell: {
 			pages: {
 				command: [
+					'git stash',
 					'git checkout gh-pages',
-					'git checkout master -- dist/pages/index.html',
-					'mv dist/pages/index.html .',
-					'rm -rf dist/pages/',
-					'git checkout master',
-					'git checkout -- .'
+					'git stash pop',
+					'git commit -am "Update index.html"',
+					'git checkout master'
 				].join('&&')
 			}
 		}
@@ -165,9 +164,10 @@ module.exports = function ( grunt ) {
 	grunt.loadTasks('tasks');
 
 	grunt.registerTask('stylecheck', ['jshint:main', 'jscs:main']);
-	grunt.registerTask('default', ['stylecheck', 'browserify:dist', 'uglify:dist', 'uglify:browserify', 'bookmarkletize:dist', 'markdown:pages', 'shell:pages']);
-	grunt.registerTask('releasePatch', ['bump-only:patch', 'default', 'bump-commit']);
-	grunt.registerTask('releaseMinor', ['bump-only:minor', 'default', 'bump-commit']);
-	grunt.registerTask('releaseMajor', ['bump-only:major', 'default', 'bump-commit']);
+	grunt.registerTask('pages', ['markdown:pages', 'shell:pages']);
+	grunt.registerTask('default', ['stylecheck', 'browserify:dist', 'uglify:dist', 'uglify:browserify', 'bookmarkletize:dist']);
+	grunt.registerTask('releasePatch', ['bump-only:patch', 'default', 'bump-commit', 'pages']);
+	grunt.registerTask('releaseMinor', ['bump-only:minor', 'default', 'bump-commit', 'pages']);
+	grunt.registerTask('releaseMajor', ['bump-only:major', 'default', 'bump-commit', 'pages']);
 
 };
