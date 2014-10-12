@@ -142,9 +142,9 @@ module.exports = function ( grunt ) {
 		shell: {
 			pages: {
 				command: [
-					'git stash',
+					'mv dist/pages/index.html _index.html',
 					'git checkout gh-pages',
-					'git stash pop',
+					'mv _index.html index.html',
 					'git commit -am "Update index.html"',
 					'git checkout master'
 				].join('&&')
