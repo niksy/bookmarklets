@@ -59,3 +59,7 @@ iOS has the worst bookmarklet management ever. Let’s make it a little bit easi
 ### Google +1
 
 {{ dist/gplus-one.js }}
+
+### Get image URL
+
+{{ dist/get-image-url.js }}
