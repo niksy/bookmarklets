@@ -165,9 +165,10 @@ module.exports = function ( grunt ) {
 	grunt.loadTasks('tasks');
 
 	grunt.registerTask('stylecheck', ['jshint:main', 'jscs:main']);
-	grunt.registerTask('default', ['stylecheck', 'browserify:dist', 'uglify:dist', 'uglify:browserify', 'bookmarkletize:dist', 'markdown:pages', 'shell:pages']);
-	grunt.registerTask('releasePatch', ['bump-only:patch', 'default', 'bump-commit']);
-	grunt.registerTask('releaseMinor', ['bump-only:minor', 'default', 'bump-commit']);
-	grunt.registerTask('releaseMajor', ['bump-only:major', 'default', 'bump-commit']);
+	grunt.registerTask('pages', ['markdown:pages', 'shell:pages']);
+	grunt.registerTask('default', ['stylecheck', 'browserify:dist', 'uglify:dist', 'uglify:browserify', 'bookmarkletize:dist']);
+	grunt.registerTask('releasePatch', ['bump-only:patch', 'default', 'bump-commit', 'pages']);
+	grunt.registerTask('releaseMinor', ['bump-only:minor', 'default', 'bump-commit', 'pages']);
+	grunt.registerTask('releaseMajor', ['bump-only:major', 'default', 'bump-commit', 'pages']);
 
 };
