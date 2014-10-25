@@ -62,10 +62,10 @@ if ( dom.wrap === null ) {
 	dom.body.appendChild(dom.wrap);
 
 	// Add stylesheet rules
-	dom.style.sheet.insertRule('.bookmarklet-components { position:fixed; top:10px; right:10px; z-index:9999; overflow:hidden; }', 0);
+	dom.style.sheet.insertRule('.bookmarklet-components { all:initial; position:fixed; top:10px; right:10px; z-index:9999; overflow:hidden; }', 0);
 	dom.style.sheet.insertRule('.bookmarklet-component { float:left; margin-left:10px; padding:10px; border-radius:5px; background-color:rgba(0,0,0,0.3); }', 0);
 	dom.style.sheet.insertRule('.bookmarklet-component:first-child { margin-left:0; }', 0);
-	dom.style.sheet.insertRule('.bookmarklet-components-remove { position:fixed; right:0; bottom:0; left:0; z-index:9999; box-sizing:border-box; width:100%; margin:0; padding:10px; border:none; border-top:1px solid #e00c00; font:bold 18px/1.5 "Helvetica Neue", sans-serif; text-shadow:0 1px 0 rgba(0,0,0,0.5); color:#fff; background:#ff4136; cursor:pointer; }', 0);
+	dom.style.sheet.insertRule('.bookmarklet-components-remove { all:initial; position:fixed; right:0; bottom:0; left:0; z-index:9999; box-sizing:border-box; width:100%; margin:0; padding:10px; border:none; border-top:1px solid #e00c00; font:bold 18px/1.5 "Helvetica Neue", sans-serif; text-align:center; text-shadow:0 1px 0 rgba(0,0,0,0.5); color:#fff; background:#ff4136; cursor:pointer; }', 0);
 	dom.style.sheet.insertRule('.bookmarklet-components-remove:hover { background:#ff5147; }', 0);
 
 }
